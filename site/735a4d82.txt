@@ -1,0 +1,1465 @@
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Relatório
+
+Previsão de Preço de Imóveis de São Caetano
+do Sul
+
+1
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+São Paulo
+1º/2024
+Atividade em Grupo em ordem alfabética (Máximo 3 alunos)
+Nome
+Lucca Eiki Amarante Millian
+
+RA
+10390794
+
+2
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Sumário
+
+1
+
+INTRODUÇÃO......................................................................................................................4
+
+2
+
+INTEGRAÇÃO E DATA UNDERSTANDING.........................................................................7
+
+3
+
+2.1
+
+Base de dados............................................................................................................7
+
+2.2
+
+Atributos da Base de Dados Final............................................................................7
+
+2.3
+
+Tabela de Correlação de Pearson............................................................................8
+
+2.4
+
+Tabela de Frequência.................................................................................................8
+
+2.5
+
+Skewness.....................................................................................................................9
+
+2.6
+
+Kurtosis........................................................................................................................9
+
+2.7
+
+Heatmap Correlação................................................................................................10
+
+2.8
+
+Scatter plot................................................................................................................10
+
+2.8.1
+
+area total x preco.................................................................................................11
+
+2.8.2
+
+quartos x preco....................................................................................................11
+
+2.9
+
+Histograma Geral.....................................................................................................12
+
+2.10
+
+Histograma com Curva: area_total........................................................................12
+
+2.11
+
+Histograma com Curva: preco................................................................................13
+
+2.12
+
+Histograma e Scatter Geral....................................................................................14
+
+2.13
+
+Boxplot preco...........................................................................................................15
+
+2.14
+
+Boxplot área_total....................................................................................................15
+
+2.15
+
+Boxplot quartos........................................................................................................16
+
+2.16
+
+Problemas Identificados.........................................................................................17
+
+2.17
+
+Questões – Compreendendo os Dados.................................................................17
+
+DATA PREPARATION.........................................................................................................18
+3.1
+
+Eliminação Manual de Atributos e Limpeza.........................................................18
+
+3.2
+
+Atributos Dataset: Antes da Preparação...............................................................20
+
+3.3
+
+Normalização MaxMin/Escore-Z, One-Hot Encoding e Ordenação do dataset
+21
+
+3.4
+
+Atributos Dataset: Depois da Preparação e Ordenação das Colunas...............21
+
+3
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+4
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+1
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+INTRODUÇÃO
+
+Considere que fazemos parte de uma imobiliária que tem imóveis localizados
+UNICAMENTE em São Caetano do sul. Ela quer disponibilizar um preditor aos seus
+clientes para sugerir o valor de venda ou compra de um imóvel.
+Algumas perguntas de negócio poderiam ser:
+•
+
+Quero comprar um imóvel seguindo algumas características, é possível
+prever qual o preço ou valor do imóvel?
+
+•
+
+Quais dados devem ser capturados para avaliar o valor a pagar?
+
+•
+
+Posso montar um conjunto de dados para gerar um modelo preditivo que
+permite um vendedor avaliar o preço que deve ser ofertado do imóvel? Com
+esse mesmo conjunto de dados, caso eu queira comprar, é possível utilizá-lo
+para prever o valor de compra?
+A coleta de dados foi realizada por alunos de um curso de Ciência da
+
+Computação e Sistemas de Informação em março de 2021 de uma instituição
+acadêmica fazendo uso de coleta de dados manuais e webscraping nos sites:
+
+
+www.vivareal.com.br/
+
+
+
+www.creditas.com
+
+
+
+www.imovelweb.com.br
+
+Nesse cenário, foram coletados e montados 23 datasets por diferentes
+elementos, dos quais 20 deles constam em uma pasta de nome bd_SCS.
+Os atributos considerados durante essa coleta de dados foram:
+•
+
+Tipo: Casa (1), Apto (2).
+
+•
+
+Tempo do imóvel em anos: (0 = novo)
+
+•
+
+Localização: Rua Luís Cavana, 70 - Centro, São Caetano do Sul – SP.
+
+•
+
+Área total (m2):
+
+•
+
+Área útil (m2):
+
+•
+
+Número de quartos:
+
+•
+
+Suíte: Sim (1) ou Não (0)
+
+•
+
+Número de Banheiros
+
+•
+
+Número de Vagas para Carros
+5
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+•
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+Academia: Sim (1) ou Não (0)
+
+•
+
+Churrasqueira: Sim (1) ou Não (0)
+
+•
+
+Elevador: Sim (1) ou Não (0)
+
+•
+
+Salão de Festas: Sim (1) ou Não (0)
+
+•
+
+Piscina: Sim (1) ou Não (0)
+
+•
+
+Valor do IPTU: em R$
+
+•
+
+Valor do Condomínio: em R$.
+
+•
+
+Valor do Imóvel: em R$.
+Em um primeiro momento, o professor da disciplina fez uma integração de três
+
+datasets, sendo dois arquivos texto com extensão “csv”: bdSCS_1_csv.csv e
+bdSCS_2_csv.csv, e um do Excel com extensão xlsx:
+
+bdSCS_3_excel.xlsx,
+
+gerando ao final único dataset com nome bdSCS_final_csv.csv.
+No processo de integração, foram realizadas manipulações nos conteúdos
+internos de cada um dos arquivos fazendo uso de algumas bibliotecas do Python,
+dentre elas:
+
+pandas, numpy, matplotlib, seaborn e re (expressões regulares),
+
+chegando-se a um resultado final de 13 atributos para bdSCS_final_csv.csv, sendo
+12 deles candidatos a atributos de entrada e 1 o atributo alvo (Valor do Imóvel).
+Após esse processo, os atributos resultantes foram:
+•
+
+Tipo: Casa (1), Apto (2).
+
+•
+
+Bairro.
+
+•
+
+Área total (m2)
+
+•
+
+Número de quartos
+
+•
+
+Número de Banheiros
+
+•
+
+Número de Vagas para Carros
+
+•
+
+Academia: Sim (1) ou Não (0)
+
+•
+
+Churrasqueira: Sim (1) ou Não (0)
+
+•
+
+Elevador: Sim (1) ou Não (0)
+
+•
+
+Salão de Festas: Sim (1) ou Não (0)
+
+•
+
+Piscina: Sim (1) ou Não (0)
+
+•
+
+Valor do Condomínio: em R$.
+
+•
+
+Valor do Imóvel: em R$.
+6
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+A partir do exposto e dos resultados obtidos na etapa Data Understanding do
+processo CRISP-DM, realizar a etapa Data Preparation com o dataset obtido,
+preencher o solicitado no relatório.
+
+7
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+2
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+INTEGRAÇÃO E DATA UNDERSTANDING
+
+2.1
+
+Base de dados
+
+Professor
+
+•
+
+Nome do arquivo csv utilizado: bdSCS_1_csv e bdSCS_2_csv
+
+•
+
+Nome do arquivo Excel utilizado: bdSCS_3_excel
+
+•
+
+Nome da base de dados final: bdSCS_final_csv.csv
+
+•
+
+Total de Registros (Instâncias ou Observações) do arquivo de imóveis de São
+Caetano do Sul Final: 6381.
+
+•
+
+Total de Atributos Final: 13.
+
+Aluno
+
+•
+
+Nome do arquivo csv utilizado: bdSCS_20_csv e bdSCS_21_csv
+
+•
+
+Nome do arquivo Excel utilizado: bdSCS_final_csv.csv
+
+•
+
+Nome da base de dados final: bdSCS_final_novo_csv.csv
+
+•
+
+Total de Registros (Instâncias ou Observações) do arquivo de imóveis de São
+Caetano do Sul Final: . 6480
+
+•
+
+Atributos da Base de Dados Final: 13
+
+Professor
+
+Nesta etapa, foram considerados 13 atributos de cada imóvel, sendo eles:
+•
+
+Tipo: Casa (1), Apto (2).
+
+•
+
+Bairro.
+
+•
+
+Área total (m2):
+
+•
+
+Número de quartos:
+
+•
+
+Número de Banheiros:
+
+•
+
+Número de Vagas para Carros:
+
+•
+
+Academia: Sim (1) ou Não (0)
+
+•
+
+Churrasqueira: Sim (1) ou Não (0)
+8
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+•
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+Elevador: Sim (1) ou Não (0)
+
+•
+
+Salão de Festas: Sim (1) ou Não (0)
+
+•
+
+Piscina: Sim (1) ou Não (0)
+
+•
+
+Valor do Condomínio: em R$.
+
+•
+
+Valor do Imóvel: em R$.
+
+Aluno
+
+Nesta etapa, foram considerados 13 atributos de cada imóvel, sendo eles:
+• Tipo: Casa (1), Apto (2).
+• Bairro.
+• Área total (m2):
+• Número de quartos:
+• Número de Banheiros:
+• Número de Vagas para Carros:
+• Academia: Sim (1), Não (0)
+• Churrasqueira: Sim (1) ou Não (0)
+• Elevador: Sim (1) ou Não (0)
+• Salão de Festas: Sim (1) ou Não (0)
+• Piscina: Sim (1) ou Não (0)
+• Valor do Condomínio: em R$.
+• Valor do Imóvel: em R$.
+2.2
+
+Tabela de Correlação de Pearson
+
+Professor
+
+9
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Aluno
+
+2.3
+
+Tabela de Frequência
+
+Professor
+
+10
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Aluno
+
+11
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+2.4
+
+Skewness
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Professor
+
+Aluno
+
+2.5
+
+Kurtosis
+
+Professor
+
+12
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+Aluno
+
+2.6
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Heatmap Correlação
+
+Professor
+
+13
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Aluno
+
+2.7
+
+Scatter plot
+
+2.7.1
+
+area total x preco
+
+Professor
+
+14
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Aluno
+
+2.7.2
+
+quartos x preco
+
+Professor
+
+15
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+Aluno
+
+2.8
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Histograma Geral
+
+Professor
+
+16
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+Aluno
+
+2.9
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Histograma com Curva: area_total
+
+Professor
+
+17
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+sk = 6.659796686013957, Ck = 110.77760469964831
+Média=96.0025074439743, Mediana=76.0, Moda= 90
+
+Aluno
+
+2.10 Histograma com Curva: preco
+Professor
+
+18
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+sk = 2.8330314405741173, Ck = 7.515772619574491
+Média=1193589.0520294625, Mediana=510000.0, Moda= 990000
+
+19
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+Aluno
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+2.11 Histograma e Scatter Geral
+Professor
+
+20
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Aluno
+
+21
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+2.12 Boxplot preco
+Professor
+Rótulo
+preco
+
+valor_baixo
+540.0
+
+quartil_hum
+mediana
+450000.0 510000.0
+
+quartil_tres
+990000.0
+
+valor_alto
+1800000.0
+
+22
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Aluno
+
+23
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+2.13 Boxplot área_total
+Professor
+Rótulo
+area_total
+
+valor_baixo
+38.0
+
+quartil_hum
+65.0
+
+mediana
+76.0
+
+quartil_tres
+106.0
+
+valor_alto
+162.0
+
+Aluno
+
+24
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+2.14 Boxplot quartos
+Professor
+Rótulo valor_baixo quartil_hum mediana quartil_tres valor_alto
+quartos
+1.0
+2.0
+2.0
+3.0
+4.0
+
+Aluno
+
+25
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+2.15 Problemas Identificados
+
+Dos 17 atributos inicialmente selecionados, o tempo do imóvel, suíte, área útil e valor
+do IPTU foram removidos por não apresentar valores significativos na maior parte das
+observações.
+O atributo localização continha o endereço completo, mas foi considerado somente o
+valor do bairro. Por este fato, o atributo foi renomeado para bairro.
+O atributo condomínio não apresenta dados em alguns registros. Logo, algo deve ser
+feito na etapa de preparação dos dados.
+O atributo banheiros e vagas apresentam valores inconsistentes internamente. Logo,
+algo deve ser feito na etapa de preparação dos dados.
+2.16 Questões – Compreendendo os Dados
+
+A resposta a essas questões deve constar no Notebook
+(IA_EAD_Atividade_DataUnderstanding.ipynb) em local apresentado no seu interior. Os
+resultados obtidos do código elaborado deve ser apresentado como respostas às
+questões elencadas abaixo.
+
+a) Qual a quantidade de imóveis por bairro do tipo 2?
+Resposta:
+bairro
+Barcelona
+
+728
+
+Boa Vista
+
+396
+
+Centro
+
+171
+
+Cerâmica
+
+916
+
+Fundação
+
+251
+
+Jardim Planalto
+
+1
+
+Jardim Sao Caetano
+Mauá
+
+152
+
+191
+
+Nova Gerti
+
+8
+
+Nova Gerty
+
+260
+26
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+Olímpico
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+726
+
+Osvaldo Cruz
+
+153
+
+Santa Maria
+
+987
+
+Santa Paula
+
+992
+
+Santo Antônio
+
+435
+
+São José
+
+1
+
+b) Qual o valor médio dos preços dos imóveis do tipo 1 do bairro Santa Paula?
+Resposta: nan
+
+c) Quantos imóveis do tipo 1 que tem menos do que 2 banheiros com área total maior do
+que 100 m2
+Resposta: 72
+
+d) Qual o valor médio do condomínio dos imóveis do tipo 1 que tem academia, elevador
+e piscina?
+Resposta: 1035318.0908265214
+
+e) Qual a área média dos imóveis (tipo 1 e 2) que tem 2 quartos ou mais e valor do
+imóvel maior do que R$ 600000,00?
+Resposta: 154.14350064350063
+
+f) Qual a quantidade de imóveis do tipo 1 que pelo menos 2 quartos, ao menos 2 vagas
+de garagem, com salão de festas e churrasqueira?
+Resposta: 15
+
+g) Qual a quantidade de imóveis do tipo 1 possui seu preço maior do que a média dos
+preços dos imóveis (também do tipo 1)?
+Resposta: 25
+
+h) Quantos imóveis do tipo 2 são do bairro Barcelona, Santa Maria e Nova Gerty e tem
+pelo menos 3 quartos?
+Resposta: 556
+
+i) Apresentar a relação de imóveis de qualquer tipo com preço maior do que R$
+600.000,00 com pelo menos 2 vagas de garagem?
+Resposta: 1920
+
+27
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+3
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+DATA PREPARATION
+
+3.1
+
+Eliminação Manual de Atributos e Limpeza
+
+Professor
+Atividade
+
+Base de dados
+antes da
+preparação
+
+Nome da Base
+
+Eliminação
+Manual de
+Atributos
+
+Removido o atributo
+
+Limpeza de Dados –
+Dados Incompletos
+
+Limpeza de Dados –
+Dados
+Inconsistentes
+
+Valores/Ação realizada
+
+bdSCS_final_profIvan.csv
+
+Total de objetos
+Total de Atributos
+
+6381
+13
+
+Antes de remover o
+atributo Tipo (coluna)
+Total de Objetos
+restantes
+Total de Atributos
+restantes
+Objetos contendo o
+atributo condomínio
+Total de Objetos
+restantes
+Atributo banheiros
+contendo 179 “—” e 45
+“2-3”
+Total de Objetos
+restantes
+Os atributos banheiros e
+vagas estavam com o
+tipo de dados object
+O conteúdo do atributo
+bairro apresentavam dois
+problemas
+Ação realizada no
+atributo bairro
+Remoção dos objetos nos
+quais o atributo
+
+Foram removidos os objetos com
+Tipo = ‘1’ (casa)
+6272
+
+Tipo, pois havia poucos valores
+com Tipo = 1 (casa), podiam
+afetar a sua predição.
+
+12
+11 deles com valores nulos. Foram
+todos removidos.
+6261
+Removidos todos os objetos com
+esses valores
+6037
+Foram convertidos para inteiro
+
+1) acentos nos nomes dos campos
+2) Bairro Jardim São Caetano tem
+com acento e sem acento.
+Os acentos foram removidos,
+resolvendo os dois problemas.
+tem o valor 0 (757 objetos)
+
+28
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Limpeza de Dados –
+Dados Redundantes
+- Objetos
+
+Limpeza de Dados Dados Redundantes
+- Atributos
+Limpeza de Dados Ruídos
+
+condomínio
+Total de Objetos
+restantes
+Foram identificados
+alguns objetos
+redundantes
+Total de Objetos
+restantes
+Inexistente
+
+Com base no boxplot,
+Técnica utilizada para
+remoção dos outliers do
+atributo preço
+Total de Objetos
+restantes
+
+5280
+Total 809. Todos foram
+removidos.
+4471
+
+foi selecionado o atributo preço
+para remoção de outliers
+outliers baixos estão abaixo de Q1
+- 1,5⋅FIQ e outliers altos estão
+acima de Q3 + 1,5⋅FIQ, onde FIQ =
+Q3 – Q1.
+3831
+
+Aluno
+Atividade
+
+Base de dados
+antes da
+preparação
+
+Eliminação
+Manual de
+Atributos
+
+Limpeza de Dados –
+Dados Incompletos
+
+Nome da Base
+
+Valores/Ação realizada
+
+bdSCS_final_csv.csv
+
+Total de objetos
+Total de Atributos
+
+6256
+
+Removido o atributo
+
+Tipo, pois havia poucos valores
+com Tipo = 1 (casa), podiam
+afetar a sua predição.
+
+Antes de remover o
+atributo Tipo (coluna)
+Total de Objetos
+restantes
+Total de Atributos
+restantes
+Objetos contendo o
+atributo condomínio
+Total de Objetos
+restantes
+
+Foram removidos os objetos com
+Tipo = ‘1’ (casa)
+6144
+
+13
+
+12
+11 deles com valores nulos. Foram
+todos removidos.
+6133
+29
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+Limpeza de Dados –
+Dados
+Inconsistentes
+
+Limpeza de Dados –
+Dados Redundantes
+- Objetos
+
+Limpeza de Dados Dados Redundantes
+- Atributos
+Limpeza de Dados Ruídos
+
+Atributo banheiros
+contendo 179 “—” e 45
+“2-3”
+Total de Objetos
+restantes
+Os atributos banheiros e
+vagas estavam com o
+tipo de dados object
+O conteúdo do atributo
+bairro apresentavam dois
+problemas
+Ação realizada no
+atributo bairro
+Remoção dos objetos nos
+quais o atributo
+condomínio
+Total de Objetos
+restantes
+Foram identificados
+alguns objetos
+redundantes
+Total de Objetos
+restantes
+Inexistente
+
+Removidos todos os objetos com
+esses valores
+
+Com base no boxplot,
+
+foi selecionado o atributo preço
+para remoção de outliers
+outliers baixos estão abaixo de Q1
+- 1,5⋅FIQ e outliers altos estão
+acima de Q3 + 1,5⋅FIQ, onde FIQ =
+Q3 – Q1.
+3918
+
+Técnica utilizada para
+remoção dos outliers do
+atributo preço
+Total de Objetos
+restantes
+
+3.2
+
+6133
+Foram convertidos para inteiro
+
+1) acentos nos nomes dos campos
+2) Bairro Jardim São Caetano tem
+com acento e sem acento.
+Os acentos foram removidos,
+resolvendo os dois problemas.
+tem o valor 0 (762 objetos)
+
+5371
+Total 811. Todos foram
+removidos.
+4560
+
+Atributos Dataset: Antes da Preparação
+
+Professor
+
+Nesta etapa, foram considerados 13 atributos de cada imóvel, sendo eles:
+30
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+
+•
+
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+Tipo: Casa (1), Apto (2).
+
+•
+
+Bairro.
+
+•
+
+Área total (m2):
+
+•
+
+Número de quartos:
+
+•
+
+Número de Banheiros:
+
+•
+
+Número de Vagas para Carros:
+
+•
+
+Academia: Sim (1) ou Não (0)
+
+•
+
+Churrasqueira: Sim (1) ou Não (0)
+
+•
+
+Elevador: Sim (1) ou Não (0)
+
+•
+
+Salão de Festas: Sim (1) ou Não (0)
+
+•
+
+Piscina: Sim (1) ou Não (0)
+
+•
+
+Valor do Condomínio: em R$.
+
+•
+
+Valor do Imóvel: em R$.
+
+Aluno
+
+Nesta etapa, foram considerados 13 atributos de cada imóvel, sendo eles:
+•
+
+Tipo: Casa (1), Apto (2).
+
+•
+
+Bairro.
+
+•
+
+Área total (m2):
+
+•
+
+Número de quartos:
+
+•
+
+Número de Banheiros:
+
+•
+
+Número de Vagas para Carros:
+
+•
+
+Academia: Sim (1) ou Não (0)
+
+•
+
+Churrasqueira: Sim (1) ou Não (0)
+
+•
+
+Elevador: Sim (1) ou Não (0)
+
+•
+
+Salão de Festas: Sim (1) ou Não (0)
+
+•
+
+Piscina: Sim (1) ou Não (0)
+
+•
+
+Valor do Condomínio: em R$.
+
+•
+
+Valor do Imóvel: em R$.
+
+31
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+
+3.3
+
+Normalização MaxMin/Escore-Z, One-Hot Encoding e Ordenação do dataset
+
+Professor
+Atividade
+Normalização MaxMIn
+Normalização
+(Padronização) Escore-Z
+One-Hot Encoding
+
+Ordenação do dataset
+
+3.4
+
+Convertidos dentro do
+intervalo: [0, 1]
+Convertidos para média 0
+e desvio padrão 1
+Transformação de
+Variáveis Categóricas para
+Numéricas
+O atributo categórico
+apresentava
+Logo, aumentou o número
+de atributos
+O atributo alvo não estava
+no final, então
+
+Atributo
+Quartos, Banheiros e
+Vagas
+Área_total e condomínio
+Bairro
+
+13 valores diferentes
+Em mais 13
+Preco teve a ordem
+modificada para o final do
+dataset
+
+Atributos Dataset: Depois da Preparação e Ordenação das Colunas
+
+Professor
+
+Ao final foram obtidos 3831 objetos contendo 24 atributos, sendo:
+•
+
+Candidatos a Atributos Preditores (23):
+1. area_total: Trasnformação Escore-Z.
+2. quartos: Transformação MaxMin (0-1).
+3. banheiros: Transformação MaxMin (0-1).
+4. vagas: Transformação MaxMin (0-1).
+5. academia: Sim (1) ou Não (0).
+6. churrasqueira: Sim (1) ou Não (0).
+7. elevador: Sim (1) ou Não (0).
+8. salao_festas: Sim (1) ou Não (0).
+9. piscina: Sim (1) ou Não (0).
+10. condomínio: Trasnformação Escore-Z.
+11. bairro_Barcelona: Sim (1) ou Não (0).
+32
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+12. bairro_Boa_Vista: Sim (1) ou Não (0).
+13. bairro_Centro: Sim (1) ou Não (0).
+14. bairro_Ceramica: Sim (1) ou Não (0).
+15. bairro_Fundacao: Sim (1) ou Não (0).
+16. bairro_Jardim_Sao_Caetano: Sim (1) ou Não (0).
+17. bairro_Maua: Sim (1) ou Não (0).
+18. bairro_Nova_Gerty: Sim (1) ou Não (0).
+19. bairro_Olimpico: Sim (1) ou Não (0).
+20. bairro_Osvaldo_Cruz: Sim (1) ou Não (0).
+21. bairro_Santa_Maria: Sim (1) ou Não (0).
+22. bairro_Santa_Paula: Sim (1) ou Não (0).
+23. bairro_Santo_Antonio: Sim (1) ou Não (0).
+•
+
+Atributo Alvo
+•
+
+preco: em R$.
+
+Aluno
+
+Ao final foram obtidos 3918 objetos contendo 27 atributos, sendo:
+•
+
+Candidatos a Atributos Preditores (26):
+1.
+
+'area_total',
+
+2. 'quartos',
+
+3. 'banheiros',
+4. 'vagas',
+5. 'academia',
+6. 'churrasqueira',
+7. 'elevador',
+8. 'salao_festa',
+9. 'piscina',
+10.
+'condominio',
+11.
+'preco',
+12.
+'bairro_Barcelona',
+13.
+'bairro_Boa_Vista',
+14.
+'bairro_Centro',
+15.
+'bairro_Ceramica',
+16.
+'bairro_Fundacao',
+17.
+'bairro_Jardim_Planalto',
+33
+
+UNIVERSIDADE PRESBITERIANA MACKENZIE
+Faculdade de Computação e Informática
+Curso: Bacharelado em Ciência da Computação
+Disciplina: Inteligência Artificial – 7º N
+Prof. Dr. Ivan Carlos Alcântara de Oliveira
+'bairro_Jardim_Sao_Caetano',
+'bairro_Maua',
+'bairro_Nova_Gerti',
+'bairro_Nova_Gerty',
+'bairro_Olimpico',
+'bairro_Osvaldo_Cruz',
+'bairro_Santa_Maria',
+'bairro_Santa_Paula',
+'bairro_Santo_Antonio',
+'bairro_Sao_Jose'
+
+18.
+19.
+20.
+21.
+22.
+23.
+24.
+25.
+26.
+27.
+
+•
+
+Atributo Alvo
+•
+
+preco: em R$.
+
+34
+
+

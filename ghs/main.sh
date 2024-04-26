@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TOKEN="lhama"
+
 usage (){
     echo Função necessita de 3 argumentos, você usou $#
     echo "Opções de resolução: (screen, ebook, printer, prepress, default)"
@@ -20,7 +22,7 @@ if [ $resposta -ne 0 ]; then
     echo Erro, código de saída: $resposta
 fi
 
-envio="$(date +'%d-%m-%Y %H-%M-%S'); GhostScript; $resposta"
+envio="$TOKEN; $(date +'%d-%m-%Y %H-%M-%S'); GhostScript; $resposta"
 
 echo $envio
 

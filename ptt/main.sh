@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TOKEN="lhama"
+
 usage (){
     echo Função necessita de 1 argumentos, você usou $#
     echo "uso: $0 input.pdf"
@@ -19,7 +21,10 @@ if [ $resposta -ne 0 ]; then
     echo Erro, código de saída: $resposta
 fi
 
-envio="$(date +'%d-%m-%Y %H-%M-%S'); PDFtoTXT; $resposta"
+
+
+
+envio="$TOKEN; $(date +'%d-%m-%Y %H-%M-%S'); PDFtoTXT; $resposta"
 
 echo $envio
 
