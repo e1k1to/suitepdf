@@ -1,4 +1,0 @@
-docker build -t ptt .
-
-docker run --rm -v $(pwd):/app ptt Profile.pdf
-

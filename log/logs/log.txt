@@ -3,3 +3,9 @@
 26-04-2024 03-15-57; Serviço de Log; -1
 26-04-2024 03-59-03; GhostScript; 0
 26-04-2024 03-59-20; PDFtoTXT; 0
+26-04-2024 04-58-43; GhostScript; 0
+26-04-2024 04-58-53; GhostScript; 0
+26-04-2024 04-58-56; GhostScript; 0
+26-04-2024 04-59-56; GhostScript; 0
+26-04-2024 05-06-04; GhostScript; 0
+26-04-2024 05-06-45; PDFtoTXT; 0

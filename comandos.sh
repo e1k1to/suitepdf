@@ -1,6 +1,6 @@
 #Antes de executar, fazer os builds dos dockers e instalar as dependencias de python
 
-#sudo apt install python3-flask
+sudo apt install -y python3 python3-pip python3-flask
 
 docker build -t ghs ghs/
 
