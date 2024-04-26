@@ -1,0 +1,1 @@
+docker run --rm -v $(pwd):/app ghs pdftest/arquivo.pdf novo.pdf printer 

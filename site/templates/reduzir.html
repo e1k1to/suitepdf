@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Reduzir resolução</title>
+</head>
+<body>
+    <h1>Reduzir resolução do documento</h1>
+    <form action="/upload_gh" method="post" enctype="multipart/form-data">
+        <label for="file"> Selecione o arquivo pdf: </label> <br>
+        <input type="file" name="file" id="file">
+        <br>
+        <br>
+        <label for="res"> Selecione a resolução desejada: </label>
+        <select id="res" name="res">
+            <option value="Screen">Screen</option>
+            <option value="Ebook">Ebook</option>
+            <option value="Printer">Printer</option>
+            <option value="Prepress">Prepress</option>
+        </select>
+        <input type="submit" value="Reduzir Resolução">
+    </form>
+</body>
+</html>
