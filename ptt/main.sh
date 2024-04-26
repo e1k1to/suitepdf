@@ -18,3 +18,13 @@ resposta=$?
 if [ $resposta -ne 0 ]; then
     echo Erro, código de saída: $resposta
 fi
+
+envio="$(date +'%d-%m-%Y %H-%M-%S'); PDFtoTXT; $resposta"
+
+echo $envio
+
+echo -n "$envio" | nc -q 0 server 12345
+
+return $resposta
+
+

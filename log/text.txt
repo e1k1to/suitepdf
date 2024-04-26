@@ -1,0 +1,11 @@
+Esta é a mensagem que você deseja enviar.
+26-04-2024 02-40-24; GhostScript; 1
+26-04-2024 02-40-36; GhostScript; 0
+26-04-2024 02-48-13; GhostScript; 1
+26-04-2024 02-48-25; GhostScript; 0
+26-04-2024 02-48-58; GhostScript; 0
+26-04-2024 02-49-06; GhostScript; 1
+26-04-2024 02-51-22; GhostScript; 0
+26-04-2024 02-51-57; GhostScript; 0
+26-04-2024 02-52-38; GhostScript; 0
+26-04-2024 02-56-51; PDFtoTXT; 0

@@ -6,9 +6,10 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 
 def reduce(nome, nomered, res):
     current_directory = os.getcwd()
+    
     docker_command = [
             "docker", "run", "--rm", "-v",
-            f"{current_directory}:/app",
+            f"{current_directory}:/app", "--net", "teste", "--name", "ghs",
             "ghs", nome, nomered, res
         ]
     subprocess.run(docker_command, check=True)
@@ -17,11 +18,10 @@ def totext(nome):
     current_directory = os.getcwd()
     docker_command = [
             "docker", "run", "--rm", "-v",
-            f"{current_directory}:/app",
+            f"{current_directory}:/app", "--net", "teste", "--name", "ptt",
             "ptt", nome
         ]
     subprocess.run(docker_command, check=True)
-
 
 app = Flask(__name__)
 
