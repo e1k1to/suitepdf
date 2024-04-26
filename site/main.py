@@ -4,11 +4,11 @@ from hashlib import sha256
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 
 
-def reduce(nome, nomered, res="printer"):
+def reduce(nome, nomered, res):
     current_directory = os.getcwd()
     docker_command = [
             "docker", "run", "--rm", "-v",
-            f"{current_directory}:/app",  # Mount curren
+            f"{current_directory}:/app",
             "ghs", nome, nomered, res
         ]
     subprocess.run(docker_command, check=True)
@@ -52,7 +52,9 @@ def upload_file_gh():
 
     file.save(nomeArqSalvar)
 
-    reduce(nomeArqSalvar, nomeArqDevolv)
+    reso = request.form.get('res','')
+
+    reduce(nomeArqSalvar, nomeArqDevolv,reso)
 
     return redirect(url_for('download_file_gh',filename=nomeArqDevolv))
 
