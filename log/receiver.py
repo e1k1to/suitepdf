@@ -16,7 +16,7 @@ def main():
                 if not data:
                     break
                 # Aqui você pode processar os dados recebidos conforme necessário
-                with open("/app/text.txt","a") as f:
+                with open("/app/log.txt","a") as f:
                     f.write(data.decode())
                     f.write('\n')
                 print("Mensagem recebida:", data.decode())
