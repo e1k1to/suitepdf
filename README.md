@@ -10,4 +10,4 @@ docker build -t log log/
 
 docker network create teste
 
-docker run --rm -v $(pwd):/app --net teste --name log log
+docker run --rm -v $(pwd):/app -d --net teste --name log log
