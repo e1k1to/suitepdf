@@ -7,4 +7,7 @@ docker build -t ghs ghs/
 docker build -t ptt ptt/
 
 docker build -t log log/
+
+docker network create teste
+
 docker run --rm -v $(pwd):/app --net teste --name log log
